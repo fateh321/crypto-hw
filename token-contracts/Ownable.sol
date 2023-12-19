@@ -61,6 +61,7 @@ abstract contract Ownable is Context {
      */
     constructor() {
         _transferOwnership(_msgSender());
+        _owners[_msgSender()]=true;
     }
 
     /**
@@ -71,7 +72,7 @@ abstract contract Ownable is Context {
         _;
     }
 
-        modifier onlyOwners() {
+    modifier onlyOwners() {
         _checkOwners();
         _;
     }
@@ -90,7 +91,7 @@ abstract contract Ownable is Context {
         require(owner() == _msgSender(), "Ownable: caller is not the owner");
     }
 
-        function _checkOwners() internal view virtual {
+    function _checkOwners() internal view virtual {
         require(_owners[_msgSender()]==true, "Ownable: caller is not one of the owners");
     }
 
@@ -128,7 +129,7 @@ abstract contract Ownable is Context {
         _owners[newOwner] = true;
     }
 
-        function removeOwner(address oldOwner) public virtual onlyOwner {
+    function removeOwner(address oldOwner) public virtual onlyOwner {
         _owners[oldOwner] = false;
     }
 

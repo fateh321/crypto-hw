@@ -16,7 +16,6 @@ import "./ERC20.sol";
 
 contract BlueToken is ERC20, Ownable {
     constructor() ERC20("BlueToken", "BLUE") {}
-    bool courseCompleted;
     uint256 public classSize;
     mapping (uint256 => address) public fetchParticipant;
     mapping (address => bool) public participants;
@@ -28,7 +27,7 @@ contract BlueToken is ERC20, Ownable {
         classSize += 1;
     }
     function mint(address to, uint256 amount) public {
-        require(isOwners(msg.sender) || (participants[msg.sender])||courseCompleted, "only patriciapants and owners allowed");
+        require(isOwners(msg.sender) || (participants[msg.sender]), "only patriciapants and owners allowed");
         if (!isOwners(msg.sender)) {
             require(mintBalance[to]+amount <= 10**20, "mint limit reached");
             require(msg.sender==to,"partcipants can only mint for themselves");
@@ -38,7 +37,7 @@ contract BlueToken is ERC20, Ownable {
         mintBalance[to]+=amount;
     }
     function courseFinished() public onlyOwners {
-        courseCompleted = true;
+        _courseFinished();
     }
 
 }

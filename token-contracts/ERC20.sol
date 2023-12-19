@@ -150,6 +150,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 
     mapping(address => mapping(address => uint256)) private _allowances;
 
+    bool private _courseCompleted;
     uint256 private _totalSupply;
 
     string private _name;
@@ -455,7 +456,13 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      *
      * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].
      */
-    function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual {}
+    function _beforeTokenTransfer(address /* from */, address /* to */, uint256 /* amount */) internal virtual {
+        require(!_courseCompleted, "contract invalid after course completion");
+    }
+
+    function _courseFinished() internal virtual {
+        _courseCompleted = true;
+    }
 
     /**
      * @dev Hook that is called after any transfer of tokens. This includes
